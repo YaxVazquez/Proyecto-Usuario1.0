@@ -1,0 +1,37 @@
+
+
+/* ==========================================================================
+   Yax's custom styles
+   ========================================================================== */
+.color{
+	background: rgba(162, 222, 208,0.7); 
+}
+
+.enlaces>li>a{
+	color: black;
+}
+
+.hm-icon{
+	background: black;
+}
+
+.hm-link{
+	color: black;
+}
+
+.error{
+    color: red; 
+    visibility: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
