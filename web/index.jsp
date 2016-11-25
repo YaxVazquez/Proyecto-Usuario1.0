@@ -21,7 +21,8 @@
 
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/iconos.css">
+        <link rel="stylesheet" href="css/principal.css">
 
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
         <script type="text/javascript">
@@ -60,7 +61,7 @@
                 <span class="icon-bar hm-icon"></span>
                 <span class="icon-bar hm-icon"></span>
               </button>
-              <a href="#" class="navbar-brand hm-link">Dogs & Co.</a>
+                <a href="#" class="navbar-brand hm-link"><span class="icon icon-paw"> </span>Dogs & Co.</a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -78,7 +79,7 @@
                   <form action="index.jsp" class="form-horizontal" method="post">
                   <div class="modal-header color">
                     <button class="close" aria-hidden="true" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Registrate</h4>
+                    <h4 class="modal-title centrado">Registrate</h4>
                   </div>
                   <div class="modal-body">
                       <div class="form-group">
@@ -115,7 +116,7 @@
                             <p>Las contraseñas no coinciden</p>
                         </div>
                     </div>
-                    <p> ¿Ya tienes una cuenta? <a href="#" data-toggle="modal" data-target="#sesion" data-dismiss="modal">Entra</a></p>
+                    <p class="centrado"> ¿Ya tienes una cuenta? <a href="#" data-toggle="modal" data-target="#sesions" data-dismiss="modal">Entra</a></p>
                  <div class="modal-footer">
                     <input type='submit' name='RegistroS' id='RegistroS' class='btn' value='Registrarse' onClick='return validar(contrax, conf);'>
                     <button class="btn btn-default" data-dismiss="modal"> Cancelar </button>
@@ -131,7 +132,7 @@
                   <form action="index.jsp" class="form-horizontal" method="post">
                   <div class="modal-header color">
                     <button class="close" aria-hidden="true" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Inicia Sesión</h4>
+                    <h4 class="modal-title centrado">Inicia Sesión</h4>
                   </div>
                   <div class="modal-body">
                       <div class="form-group">
@@ -146,7 +147,7 @@
                           <input type="text" class="form-control" id="contra" name ="contra" placeholder="Contraseña">
                         </div>
                       </div>
-                    <p> ¿Aún no tienes una cuenta? <a href="#" data-toggle="modal" data-target="#registro" data-dismiss="modal">Registrate</a></p>
+                    <p class="centrado"> ¿Aún no tienes una cuenta? <a href="#" data-toggle="modal" data-target="#registro" data-dismiss="modal">Registrate</a></p>
                   </div>
                   <div class="modal-footer">
                     <input type="submit" class="btn" value="Login" id="LogIn" name="LogIn">
@@ -296,9 +297,22 @@
                 {
                     r = s.executeQuery("select * from Usuario where Correo ='"+email+"';");
                     if (!r.next()){
-                        String queryString="call addUser('"+0+"','"+user+"','"+nome+"'  '"+apell +"','"+contra+"', '"+email+"');";
+                        String queryString="call addUser('"+0+"','"+0+"','"+user+"','"+nome+"'  '"+apell +"','"+contra+"', '"+email+"');";
                          pstatement=con.prepareStatement(queryString);
                          pstatement.executeUpdate();
+                                cl.cMail1 env= new cl.cMail1();
+                                String receptor=request.getParameter("email");
+                                String titulo="Verifica tu correo ahora!";
+                                String enviar=":DDDDDDDDDDDDDDDDDDDDDDDDDD";
+
+                                try{
+                                    env.mandaMAil(receptor, titulo, enviar);
+                                    out.println("<script>alert('Correo Enviado')</script>");
+
+                                }
+                                catch(Exception e){
+                                    e.getMessage();
+                                }
 
                              out.println("<script>alert('Registro exitoso')</script>");
                              out.println("<meta http-equiv='refresh' content='.0000001;URL=http://localhost:8080/Proyecto1.0/index.jsp'/>");

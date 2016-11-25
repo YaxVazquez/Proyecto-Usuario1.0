@@ -1,3 +1,12 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 24/11/2016, 07:01:21 PM
+    Author     : Yax
+*/
 
 
 /* ==========================================================================
@@ -6,32 +15,19 @@
 .color{
 	background: rgba(162, 222, 208,0.7); 
 }
-
 .enlaces>li>a{
 	color: black;
 }
-
 .hm-icon{
 	background: black;
 }
-
 .hm-link{
 	color: black;
 }
-
 .error{
     color: red; 
     visibility: hidden;
 }
-
-
-
-
-
-
-
-
-
-
-
-
+.centrado{
+    text-align: center;
+}

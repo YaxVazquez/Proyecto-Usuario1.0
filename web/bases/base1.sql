@@ -15,6 +15,7 @@ Estado varchar(30)
 
 drop table if exists Usuario;
 create table Usuario(IdUsuario int(3) primary key not null,
+Verificacion int(1) not null,
 NombreUsuario varchar(30) not null,
 Nombre varchar(20) not null,
 Contraseña varchar(20) not null,
@@ -88,3 +89,6 @@ Clave blob);
 
 use doggos;
 select * from Usuario;
+
+
+delete from Usuario where IdUsuario = 2;
