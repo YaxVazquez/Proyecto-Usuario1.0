@@ -1,10 +1,11 @@
 <%-- 
-    Document   : salir
-    Created on : 15/05/2016, 11:30:38 PM
-    Author     : Yax
+    Document   : Salir
+    Created on : 22/11/2016, 12:51:52 AM
+    Author     : ALDO ERNESTO
 --%>
-<%@page import="java.sql.*, java.io.*"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*, java.io.*"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,8 +14,10 @@
     </head>
     <body>
         <%
+            if(request.getParameter("fieldS") == null) {
             Connection c = null;
             Statement s = null;
+            ResultSet R = null;
             PreparedStatement ps = null;
             
             try{
@@ -27,13 +30,14 @@
             }
         try{
                     HttpSession sesion = request.getSession();
-                    String usuario = (String)sesion.getAttribute("user");
-                    
-                    String queryString="update Usuario set Sesion='"+0+"' where Correo ='"+usuario+"';";
-                    ps=c.prepareStatement(queryString);
-                    ps.executeUpdate();
-                    sesion.invalidate();  
-                    response.sendRedirect("index.jsp"); 
+        String usuario = (String)sesion.getAttribute("user");
+                        String queryString="update Centro set Sesion='"+0+"' where Usuario ='"+usuario+"';";
+                         ps=c.prepareStatement(queryString);
+                         ps.executeUpdate();
+                         sesion.invalidate();
+       
+                         
+        response.sendRedirect("indexP.jsp");
         }
         catch(Exception e)
                         {
@@ -41,7 +45,8 @@
                             e.printStackTrace();
                             out.print("Adios");
                         }    
-               
+            }    
         %>
     </body>
 </html>
+

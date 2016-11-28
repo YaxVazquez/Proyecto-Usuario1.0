@@ -1,6 +1,6 @@
 <%-- 
-    Document   : PaginaPrincipal
-    Created on : 21/11/2016, 12:13:49 PM
+    Document   : perfi
+    Created on : 27/11/2016, 03:47:46 PM
     Author     : Yax
 --%>
 
@@ -15,7 +15,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Inicio - Dogs & Co</title>
+        <title>Perfil - Dogs & Co</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/x-icon" href="img/holi.ico" />
@@ -42,6 +42,7 @@
                             Connection c = null;
                             Statement s = null;
                             ResultSet r = null;
+                            PreparedStatement ps = null;
 
                             try {
                                 Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -56,8 +57,13 @@
                                r = s.executeQuery("select * from Usuario where Correo ='"+ emails +"';");
                                if (r.next()){
                                     String NameUs = r.getString("NombreUsuario");
+                                    String nome = r.getString("Nombre");
+                                    String apell = r.getString("Apellido");
+                                    String correo = r.getString("Correo");
+                                    String tel= r.getString("Telefono");
+                                    String Descripcion= r.getString("Descripcion");
                                  %>
-         <nav class="navbar navbar-fixed-top colorito">
+         <nav class="navbar colorito">
           <div class="container-fluid">
               
             <div class="navbar-header">
@@ -97,52 +103,34 @@
             </div>  
           </div>
         </nav>
-     
+                <div class="container">
+                    <div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4 col-md-2 col-md-offset-5 col-lg-2 col-lg-offset-5 perfils">
+                        <img src="img/user.jpg" class="img-responsive img-circle img-thumbnail" alt="#I">
+                        <a href="completar.jsp"> <span class="glyphicon glyphicon-pencil"> </span> </a>
+                    </div>
+                    <div class="centrado col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                        <%
+                            out.println("<h3>"+nome+"&nbsp;"+apell+"</h3>");
+                            out.println("@"+NameUs+"<br><br>");
+                            out.println("Correo: " + correo + "<br> <br>");
+                            out.println("Telefono: " + tel + "<br> <br>");
+                            if(Descripcion == null ){
+                                out.println("<div class='container adornos'> Descripcion: <br> ¿Aún no has completado tu perfil?:( "
+                                        + "<a href='completar.jsp'> ¡Hazlo ahora! </a> "
+                                            + "<img src=img/perries.png class='col-xs-5 col-xs-offset-7 col-sm-3 col-sm-offset-9 col-md-3 col-md-offset-9  col-lg-2 col-lg-offset-10 img-responsive' alt='doggofeliz'> "
+                                    + "</div> <br>");
+                            } else {
+                            out.println( "<div class='container adornos'>"+ Descripcion+ "<img src=img/perries.png class='col-xs-5 col-xs-offset-7 col-sm-3 col-sm-offset-9 col-md-3 col-md-offset-9  col-lg-2 col-lg-offset-10 img-responsive' alt='doggofeliz'> </div>");
+                            }
+                        %>
+                    </div>
+                </div>
         <%       
                                }
                             }
                             catch (SQLException error){
                                 out.print(error.toString());
-                            }
-                    try {
-                        String feik = "0";
-                        r = s.executeQuery("select * from Usuario where Correo ='"+ emails +"';");
-                               if (r.next()){
-                                    String co = r.getString("Verificacion");
-                                    if(feik.equals(co)){
-                                        s = c.createStatement();
-                                        out.println("<div class='container-fluid validacion'>" 
-                                        +"<form action='PaginaPrincipal.jsp' method='post' class='form-horizontal'>" 
-                                            +"<br> <br> <br>"
-                                            +"<div class='form-group'>" 
-                                                +"<div class='col-xs-6 col-sm-6 col-md-6 col-lg-6'>" 
-                                                    +"<p> Ahora solo tienes que validar tu e-mail! </p> "
-                                                +"</div>"
-                                            +"<div class='col-xs-6 col-sm-6 col-md-6 col-lg-6' style='text-align: right;'>"  
-                                                +"<input type='submit' name='reenviar' id='reenviar' class='btn culbtn ' value='Reenviar e-mail:)'>"
-                                            +"</div>" 
-                                        +"</div>"
-                                    +"</form>"
-                                +"</div>");
-                                    }
-                                }
-                    }
-                    catch (SQLException error){
-                                out.print(error.toString());
-                     }
-            if( request.getParameter("reenviar") != null ) {
-                cl.cMail1 env= new cl.cMail1();
-                String receptor=emails;
-                String titulo="Verifica tu correo ahora!";
-                String enviar=":DDDDDDDDDDDDDDDDDDDDDDDDDD";
-
-                try{
-                    env.mandaMAil(receptor, titulo, enviar);
-                }
-                catch(Exception e){
-                    e.getMessage();
-                }
-            }
+                            }         
                     %>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
         <script src="js/vendor/bootstrap.min.js"></script>

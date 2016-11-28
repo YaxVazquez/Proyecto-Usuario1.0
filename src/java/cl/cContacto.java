@@ -5,6 +5,10 @@
  */
 package cl;
 
+/**
+ *
+ * @author Yax
+ */
 import java.util.Properties;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -15,23 +19,33 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-public class cMail1 {
+public class cContacto {
     public String _error = "";
-    String _para = "";
-    String _cuerpoMsj = "";
+    String _para = "dogsandco.lc@gmail.com";
     String _de = "dogsandco.lc@gmail.com";
-    String _titulo = "";
     
-    public cMail1()
+    String _cuerpoMsj = "";
+    String _titulo = "";
+    String _nombre = "";
+    String _apellido = "";
+    String _telefono = "";
+    String _emisor = "";
+    String _ciudad = "";
+    
+    public cContacto()
     {
         
     }
-    public boolean mandaMAil(String Para, String Titulo, String Msj)
+    public boolean mandaMAil(String Titulo, String Msj, String Nombre, String Apellido, String Telefono, String Emisor, String Ciudad)
     {
         boolean envio = false;
         this._titulo = Titulo;
-        this._para  = Para;
         this._cuerpoMsj = Msj;
+        this._nombre = Nombre;
+        this._apellido  = Apellido;
+        this._telefono = Telefono;
+        this._emisor = Emisor;
+        this._ciudad  = Ciudad;
         
         try
         {
@@ -50,8 +64,10 @@ public class cMail1 {
             //contenido html
             BodyPart contenidohtml = new MimeBodyPart( ) ; 
             contenidohtml.setContent("<html>" 
-                    + "Hola, es genial saber de ti <a href='http://localhost:8080/Proyecto1.0/validar.jsp'> haz click aqui</a> y verifica tu cuenta" 
-                    + "</html>", "text/html" ) ; 
+                    + "De: "+ this._nombre + "&nbsp;" + this._apellido 
+                    + "<br> Ciudad: " + this._ciudad + " Telefono: " + this._telefono
+                    + "<br> <br>" + this._cuerpoMsj 
+                    + "<br> <br> Responder a : " + this._emisor + "</html>", "text/html" ) ; 
                 // Una MultiParte para agrupar texto y adjunto. 
             MimeMultipart multiPart = new MimeMultipart( ) ; 
             multiPart.addBodyPart(contenidohtml) ;
@@ -62,7 +78,6 @@ public class cMail1 {
             correo.setFrom(new InternetAddress(this._de));
             correo.addRecipient(Message.RecipientType.TO, new InternetAddress(this._para));
             correo.setSubject(this._titulo);
-            //correo.setText(this._cuerpoMsj);
             correo.setContent(multiPart ) ; 
 
             // Enviamos MAil .

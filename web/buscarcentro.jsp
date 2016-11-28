@@ -1,6 +1,6 @@
 <%-- 
-    Document   : PaginaPrincipal
-    Created on : 21/11/2016, 12:13:49 PM
+    Document   : buscarcentro
+    Created on : 27/11/2016, 09:10:51 PM
     Author     : Yax
 --%>
 
@@ -15,7 +15,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Inicio - Dogs & Co</title>
+        <title>Búsquedas - Dogs & Co</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/x-icon" href="img/holi.ico" />
@@ -56,8 +56,9 @@
                                r = s.executeQuery("select * from Usuario where Correo ='"+ emails +"';");
                                if (r.next()){
                                     String NameUs = r.getString("NombreUsuario");
+                                    String centro = request.getParameter("center");
                                  %>
-         <nav class="navbar navbar-fixed-top colorito">
+         <nav class="navbar colorito">
           <div class="container-fluid">
               
             <div class="navbar-header">
@@ -78,7 +79,7 @@
                 </li>
                 <li> <form action="buscarcentro.jsp" method="post" class="navbar-form navbar-left"> 
                         <div class="input-group">
-                            <input type="text" class="form-control campo" id="center" name="center" placeholder="Buscar centros" autocomplete="off" required>
+                            <input type="text" class="form-control campo" id="center" name="center" value="<%out.println(centro);%>" placeholder="Buscar centros" autocomplete="off" required>
                             <span class="input-group-btn culbtn">
                                 <input type="submit" class="btn" value="Buscar" id="Buscar" name="Buscar">
                             </span>
@@ -96,53 +97,49 @@
             </ul>
             </div>  
           </div>
-        </nav>
-     
-        <%       
-                               }
-                            }
-                            catch (SQLException error){
-                                out.print(error.toString());
-                            }
-                    try {
-                        String feik = "0";
-                        r = s.executeQuery("select * from Usuario where Correo ='"+ emails +"';");
-                               if (r.next()){
-                                    String co = r.getString("Verificacion");
-                                    if(feik.equals(co)){
-                                        s = c.createStatement();
-                                        out.println("<div class='container-fluid validacion'>" 
-                                        +"<form action='PaginaPrincipal.jsp' method='post' class='form-horizontal'>" 
-                                            +"<br> <br> <br>"
-                                            +"<div class='form-group'>" 
-                                                +"<div class='col-xs-6 col-sm-6 col-md-6 col-lg-6'>" 
-                                                    +"<p> Ahora solo tienes que validar tu e-mail! </p> "
-                                                +"</div>"
-                                            +"<div class='col-xs-6 col-sm-6 col-md-6 col-lg-6' style='text-align: right;'>"  
-                                                +"<input type='submit' name='reenviar' id='reenviar' class='btn culbtn ' value='Reenviar e-mail:)'>"
-                                            +"</div>" 
-                                        +"</div>"
-                                    +"</form>"
-                                +"</div>");
+        </nav>  
+        <%              if(request.getParameter("Buscar") != null){
+                               try {
+                                    r = s.executeQuery("select * from centro join direccioncentro where centro.IdDireccion = direccioncentro.IdDireccion and NombreCentro ='"+ centro +"';");
+                                    if (r.next()){
+                                        String NameCe = r.getString("NombreCentro");
+                                        String UserC = r.getString("Usuario");
+                                        String descripcion = r.getString("Descripcion");
+                                        String tel = r.getString("Telefono");
+                                        String correo = r.getString("Correo");
+                                        
+                                        String calle = r.getString("Calle");
+                                        String numi = r.getString("NumInt");
+                                        String nume = r.getString("NumExt");
+                                        String cp = r.getString("Cp");
+                                        String colo = r.getString("Colonia");
+                                        String dele = r.getString("Delegacion");
+                                        String estado = r.getString("Estado");
+                                        
+                                        out.println("<div class='container centrox'> <h2>" + NameCe+ "</h2>"
+                                                + "@"+UserC+ "<br><br>"
+                                                        + "<span class='glyphicon glyphicon-earphone'> </span>Telefono: " +tel+ "<br>"
+                                                + "<span class='glyphicon glyphicon-envelope'> </span>Correo: " +correo + "<br>"
+                                                + "Descripcion:" + descripcion+ "</br>"
+                                                + "<span class='glyphicon glyphicon-home'></span> Calle " + calle+ " "+numi +", Colonia "+colo+", "+dele+", "+cp+", "+estado
+                                            +"<br> <a href='perfilcentro.jsp'><button class='btn culbtn2'><span class='icon icon-paw'></span> Ver </button></a>"
+                                                + "<img src=img/perries2.png class='col-xs-5 col-xs-offset-7 col-sm-3 col-sm-offset-9 col-md-3 col-md-offset-9  col-lg-2 col-lg-offset-10 img-responsive' alt='doggofeliz'> "
+                                    + "</div> <br>");
+                                    } else{
+                                        out.println("<div class='container centrox'> <br> Este centro no esta registrado:( "
+                                            + "<img src=img/perries2.png class='col-xs-5 col-xs-offset-7 col-sm-3 col-sm-offset-9 col-md-3 col-md-offset-9  col-lg-2 col-lg-offset-10 img-responsive' alt='doggofeliz'> "
+                                    + "</div> <br>");
                                     }
-                                }
+                               }
+                               catch (SQLException error){
+                                    out.print(error.toString());
+                               }
+                        } 
                     }
-                    catch (SQLException error){
-                                out.print(error.toString());
-                     }
-            if( request.getParameter("reenviar") != null ) {
-                cl.cMail1 env= new cl.cMail1();
-                String receptor=emails;
-                String titulo="Verifica tu correo ahora!";
-                String enviar=":DDDDDDDDDDDDDDDDDDDDDDDDDD";
-
-                try{
-                    env.mandaMAil(receptor, titulo, enviar);
                 }
-                catch(Exception e){
-                    e.getMessage();
+                catch (SQLException error){
+                    out.print(error.toString());
                 }
-            }
                     %>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
         <script src="js/vendor/bootstrap.min.js"></script>
